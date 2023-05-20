@@ -31,9 +31,9 @@ import Modal from "./Modal/Modal";
         
       if (prevState.name !== name || prevState.page !== page) {
           
-            this.setState({
-               isLoading: true,
-            })
+        this.setState({
+          isLoading: true,
+        });
         
         
               ImageFetch( name, page )
@@ -50,8 +50,8 @@ import Modal from "./Modal/Modal";
         })
                 .catch(error => this.setState({
                   error
-                })).finally(this.setState({
-                isLoading:false,
+                })).finally(() => this.setState({
+                isLoading: false,
             }))
            
       }
@@ -73,11 +73,11 @@ import Modal from "./Modal/Modal";
     name,
     images: [],
     page: 1,
-       isLoading: false,
        showBtn: false,
        empty: false,
        bigImage: '',
-      error: '',
+       error: '',
+       isLoading: false,
      })
    }
 
@@ -101,9 +101,10 @@ import Modal from "./Modal/Modal";
       <>
         {error && toast.error(error)}
         <Searchbar onSubmit={this.handleSubmit} />
-        {isLoading && <Loader />}
+        
         <ToastContainer autoClose={1000}/>
         {bigImage !== '' && <Modal url={bigImage} onClose={this.clickImage} />}
+        {isLoading && <Loader />}
         <ImageGallary name={images} onClick={this.clickImage} />
         {showBtn && <Button onClick={this.buttonClick} /> }
       </>
