@@ -1,5 +1,7 @@
 import { Component } from "react";
-import css from './Searchbar.module.css'
+import css from './Searchbar.module.css';
+import { toast, ToastContainer } from 'react-toastify';
+  import "react-toastify/dist/ReactToastify.css";
   
   
 class Searchbar extends Component {
@@ -22,6 +24,11 @@ class Searchbar extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    if (this.state.name.trim() === '') {
+      toast.warning('Please write the message !')
+      return
+    }
+
     this.props.onSubmit(this.state.name)
     this.reset();
   }
@@ -29,18 +36,20 @@ class Searchbar extends Component {
   render() {
     return (
      <header className={css.Searchbar}>
-  <form onSubmit={this.handleSubmit}>
-    <button type="submit" >
+  <form className={css.SearchForm} onSubmit={this.handleSubmit}>
+    <button type="submit" className={css.SearchFormButton}>
       <span >Search</span>
     </button>
 
-    <input
+          <input
+            className={css.SearchFormInput}
       onChange={this.handleChange}
             type="text"
             value={this.state.name}
       placeholder="Search images and photos"
     />
-  </form>
+        </form>
+        <ToastContainer autoClose={1000}/>
 </header>
     )
   }

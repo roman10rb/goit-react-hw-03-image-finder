@@ -1,4 +1,6 @@
 import Button from "components/Button/Button";
+import { toast, ToastContainer } from 'react-toastify';
+  import "react-toastify/dist/ReactToastify.css";
 import Searchbar from "./Searchbar/Searchbar";
 import ImageGallary from "./ImageGallery/ImageGallery";
 import { Component } from "react";
@@ -35,6 +37,7 @@ import Modal from "./Modal/Modal";
                 .then(({ hits, totalHits }) => {
           if (hits.length === 0) {
             this.setState({ empty: true });
+            toast.info('No images with this name')
             return;
           }
           this.setState(prevState => ({
@@ -79,7 +82,7 @@ import Modal from "./Modal/Modal";
         console.log(this.state)
    }
    
-
+  
    
   
   
@@ -89,7 +92,8 @@ import Modal from "./Modal/Modal";
       <>
         <Searchbar onSubmit={this.handleSubmit} />
         {this.state.isLoading && <Loader />}
-        {this.state.bigImage !== '' && <Modal url={this.state.bigImage} />}
+        <ToastContainer autoClose={1000}/>
+        {this.state.bigImage !== '' && <Modal url={this.state.bigImage} onClose={this.clickImage} />}
         <ImageGallary name={this.state.images} onClick={this.clickImage} />
         {this.state.showBtn && <Button onClick={this.buttonClick} /> }
       </>
