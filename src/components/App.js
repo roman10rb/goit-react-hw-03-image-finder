@@ -19,21 +19,24 @@ import Modal from "./Modal/Modal";
      isLoading: false,
     showBtn: false,
      empty: false,
-    bigImage: '',
+     bigImage: '',
+    error: '',
    }
    
 
    
-    componentDidUpdate(prevProps, prevState) {
+   componentDidUpdate(prevProps, prevState) {
+      
+     const { page, name } = this.state;
         
-      if (prevState.name !== this.state.name || prevState.page !== this.state.page) {
+      if (prevState.name !== name || prevState.page !== page) {
           
             this.setState({
                isLoading: true,
             })
         
         
-              ImageFetch( this.state.name, this.state.page )
+              ImageFetch( name, page )
                 .then(({ hits, totalHits }) => {
           if (hits.length === 0) {
             this.setState({ empty: true });
@@ -42,10 +45,12 @@ import Modal from "./Modal/Modal";
           }
           this.setState(prevState => ({
             images: [...prevState.images, ...hits],
-            showBtn: this.state.page < Math.ceil(totalHits / 12),
+            showBtn: page < Math.ceil(totalHits / 12),
           }));
         })
-                .catch(error => console.log(error)).finally(this.setState({
+                .catch(error => this.setState({
+                  error
+                })).finally(this.setState({
                 isLoading:false,
             }))
            
@@ -71,7 +76,8 @@ import Modal from "./Modal/Modal";
        isLoading: false,
        showBtn: false,
        empty: false,
-      bigImage: '',
+       bigImage: '',
+      error: '',
      })
    }
 
@@ -79,7 +85,7 @@ import Modal from "./Modal/Modal";
         this.setState(prevState => ({
           page: prevState.page + 1,
         }))
-        console.log(this.state)
+        
    }
    
   
@@ -87,15 +93,19 @@ import Modal from "./Modal/Modal";
   
   
 
-  render() {
+   render() {
+    
+     const { error, isLoading, bigImage, images, showBtn } = this.state;
+     
     return (
       <>
+        {error && toast.error(error)}
         <Searchbar onSubmit={this.handleSubmit} />
-        {this.state.isLoading && <Loader />}
+        {isLoading && <Loader />}
         <ToastContainer autoClose={1000}/>
-        {this.state.bigImage !== '' && <Modal url={this.state.bigImage} onClose={this.clickImage} />}
-        <ImageGallary name={this.state.images} onClick={this.clickImage} />
-        {this.state.showBtn && <Button onClick={this.buttonClick} /> }
+        {bigImage !== '' && <Modal url={bigImage} onClose={this.clickImage} />}
+        <ImageGallary name={images} onClick={this.clickImage} />
+        {showBtn && <Button onClick={this.buttonClick} /> }
       </>
     
     )

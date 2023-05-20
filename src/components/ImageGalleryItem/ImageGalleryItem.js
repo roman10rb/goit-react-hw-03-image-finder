@@ -1,5 +1,5 @@
-import css from './ImageGallaryItem.module.css'
-
+import css from './ImageGallaryItem.module.css';
+import PropTypes from 'prop-types';
 export default function ImageGallaryItem({ name, onClick }) {
     
 
@@ -16,4 +16,9 @@ export default function ImageGallaryItem({ name, onClick }) {
             
         )
     
+}
+
+ImageGallaryItem.propTypes = {
+   name: PropTypes.arrayOf(PropTypes.object),
+    onclick: PropTypes.func,
 }

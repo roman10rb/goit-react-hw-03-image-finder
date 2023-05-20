@@ -1,5 +1,6 @@
-import css from './Modal.module.css'
-import { Component } from 'react'
+import css from './Modal.module.css';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Modal extends Component {
 
@@ -38,4 +39,8 @@ export default class Modal extends Component {
   }
     
     
+}
+
+Modal.propTypes = {
+  onClick: PropTypes.func,
 }

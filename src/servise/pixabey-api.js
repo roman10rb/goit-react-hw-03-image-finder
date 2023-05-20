@@ -8,7 +8,7 @@ export default function ImageFetch(name, page) {
                        return response.json();
                        }
                        return Promise.reject(
-                           new Error(`No images`),
+                           new Error(`Something go wrong`),
                        );
                    })
 }
